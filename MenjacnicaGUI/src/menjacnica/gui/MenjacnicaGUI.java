@@ -13,17 +13,25 @@ import javax.swing.JMenuItem;
 import java.awt.Toolkit;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JScrollPane;
 import javax.swing.border.BevelBorder;
-import javax.swing.border.TitledBorder;import javax.swing.event.TableModelListener;
+import javax.swing.border.TitledBorder;
+import javax.swing.event.TableModelListener;
 import javax.swing.plaf.basic.BasicComboBoxUI.ComboBoxLayoutManager;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.JTextArea;
 import javax.swing.JTable;
 import javax.swing.KeyStroke;
+import javax.swing.WindowConstants;
+
 import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.awt.event.InputEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class MenjacnicaGUI extends JFrame {
 
@@ -44,30 +52,19 @@ public class MenjacnicaGUI extends JFrame {
 	private JScrollPane TabelaScrollPane;
 	private JTable table;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					MenjacnicaGUI frame = new MenjacnicaGUI();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+	public MenjacnicaGUI() {
+
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent arg0) {
+				GUIKontroler.izadji();
 			}
 		});
-	}
 
-	/**
-	 * Create the frame.
-	 */
-	public MenjacnicaGUI() {
 		setIconImage(
 				Toolkit.getDefaultToolkit().getImage(MenjacnicaGUI.class.getResource("/ikonice/dollar-symbol.png")));
 		setTitle("Menjacnica");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setBounds(100, 100, 558, 383);
 		setJMenuBar(getMenuBar_1());
 		contentPane = new JPanel();
@@ -110,6 +107,11 @@ public class MenjacnicaGUI extends JFrame {
 	private JMenuItem getMntmOpen() {
 		if (mntmOpen == null) {
 			mntmOpen = new JMenuItem("Open");
+			mntmOpen.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					GUIKontroler.upisiText("Ucitan file : " + GUIKontroler.izborFile(), textArea);
+				}
+			});
 			mntmOpen.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, InputEvent.CTRL_MASK));
 			mntmOpen.setIcon(new ImageIcon(MenjacnicaGUI.class.getResource("/ikonice/open-folder-outline.png")));
 		}
@@ -119,7 +121,14 @@ public class MenjacnicaGUI extends JFrame {
 	private JMenuItem getMntmSave() {
 		if (mntmSave == null) {
 			mntmSave = new JMenuItem("Save");
-			mntmSave.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_MASK | InputEvent.SHIFT_MASK));
+			mntmSave.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					GUIKontroler.upisiText("Sacuvan file : " + GUIKontroler.izborFile(), textArea);
+
+				}
+			});
+			mntmSave.setAccelerator(
+					KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_MASK | InputEvent.SHIFT_MASK));
 			mntmSave.setIcon(new ImageIcon(MenjacnicaGUI.class.getResource("/ikonice/diskette.png")));
 		}
 		return mntmSave;
@@ -128,6 +137,11 @@ public class MenjacnicaGUI extends JFrame {
 	private JMenuItem getMntmExit() {
 		if (mntmExit == null) {
 			mntmExit = new JMenuItem("Exit");
+			mntmExit.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					GUIKontroler.izadji();
+				}
+			});
 			mntmExit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, InputEvent.CTRL_MASK));
 			mntmExit.setIcon(new ImageIcon(MenjacnicaGUI.class.getResource("/ikonice/door.png")));
 		}
@@ -137,6 +151,11 @@ public class MenjacnicaGUI extends JFrame {
 	private JMenuItem getMntmAbout() {
 		if (mntmAbout == null) {
 			mntmAbout = new JMenuItem("About");
+			mntmAbout.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					GUIKontroler.podaciOAutoru();
+				}
+			});
 			mntmAbout.setIcon(new ImageIcon(MenjacnicaGUI.class.getResource("/ikonice/info.png")));
 		}
 		return mntmAbout;
@@ -192,9 +211,11 @@ public class MenjacnicaGUI extends JFrame {
 	private JTextArea getTextArea() {
 		if (textArea == null) {
 			textArea = new JTextArea();
+			textArea.setEditable(false);
 		}
 		return textArea;
 	}
+
 	private JScrollPane getTabelaScrollPane() {
 		if (TabelaScrollPane == null) {
 			TabelaScrollPane = new JScrollPane();
@@ -202,11 +223,11 @@ public class MenjacnicaGUI extends JFrame {
 		}
 		return TabelaScrollPane;
 	}
+
 	private JTable getTable() {
 		if (table == null) {
 			table = new JTable();
 			table.setFillsViewportHeight(true);
-			
 
 			table = new JTable();
 			table.setModel(new DefaultTableModel(new Object[][] {},
@@ -221,7 +242,6 @@ public class MenjacnicaGUI extends JFrame {
 			table.getTableHeader().setReorderingAllowed(false);
 		}
 
-		
 		return table;
 	}
 }
