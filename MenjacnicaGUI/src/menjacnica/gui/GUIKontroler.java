@@ -3,6 +3,7 @@ package menjacnica.gui;
 import java.awt.EventQueue;
 import java.io.File;
 
+import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -13,6 +14,7 @@ public class GUIKontroler {
 
 	private static MenjacnicaGUI menjacnicaGUI;
 	private static DodajKursGUI dodajKursGui;
+	private static ObrisiKursGUI obrisiKursGui;
 
 	public static String izborFile() {
 		JFileChooser jfc = new javax.swing.JFileChooser();
@@ -50,7 +52,7 @@ public class GUIKontroler {
 	}
 
 	public static void izadji() {
-		int jop = JOptionPane.showConfirmDialog(menjacnicaGUI.getContentPane(), "„Da li zelite da izadjete iz programa",
+		int jop = JOptionPane.showConfirmDialog(menjacnicaGUI.getContentPane(), "Da li zelite da izadjete iz programa",
 				"Izlaz", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
 		if (jop == JOptionPane.YES_OPTION) {
 			System.exit(0);
@@ -75,6 +77,22 @@ public class GUIKontroler {
 	public static void upisiTextUMenjacnicaGUI(String string) {
 		String txt = menjacnicaGUI.getTextArea().getText() + " \n" + string;
 		upisiText(txt, menjacnicaGUI.getTextArea());
+	}
+
+	public static void OtvoriProzorObrisiKurs() {
+		GUIKontroler.obrisiKursGui = new ObrisiKursGUI();
+		obrisiKursGui.setVisible(true);
+	}
+
+	public static void zatvoriProzorObrisiKursGui() {
+		obrisiKursGui.dispose();
+		obrisiKursGui = null;
+	}
+
+	public static void promeniStanjeDugmeta(JButton btnObrisi) {
+		if (btnObrisi.isEnabled() == true){btnObrisi.setEnabled(false);}else{
+			btnObrisi.setEnabled(true);
+		}
 	}
 
 }
