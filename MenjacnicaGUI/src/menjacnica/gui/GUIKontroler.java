@@ -5,7 +5,6 @@ import java.io.File;
 
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -15,6 +14,7 @@ public class GUIKontroler {
 	private static MenjacnicaGUI menjacnicaGUI;
 	private static DodajKursGUI dodajKursGui;
 	private static ObrisiKursGUI obrisiKursGui;
+	private static IzvrsiZamenuGUI izvrsiZamenuGui;
 
 	public static String izborFile() {
 		JFileChooser jfc = new javax.swing.JFileChooser();
@@ -93,6 +93,16 @@ public class GUIKontroler {
 		if (btnObrisi.isEnabled() == true){btnObrisi.setEnabled(false);}else{
 			btnObrisi.setEnabled(true);
 		}
+	}
+
+	public static void zatvoriIzvrsiZamenuGUI() {
+		izvrsiZamenuGui.dispose();
+		izvrsiZamenuGui = null;
+	}
+
+	public static void otvoriIzvrsiZamenuProzor() {
+		izvrsiZamenuGui = new IzvrsiZamenuGUI();
+		izvrsiZamenuGui.setVisible(true);
 	}
 
 }
