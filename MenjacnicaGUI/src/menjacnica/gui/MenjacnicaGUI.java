@@ -32,6 +32,10 @@ import java.awt.event.WindowEvent;
 import java.awt.event.InputEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JPopupMenu;
+import java.awt.Component;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class MenjacnicaGUI extends JFrame {
 
@@ -51,6 +55,10 @@ public class MenjacnicaGUI extends JFrame {
 	private JTextArea textArea;
 	private JScrollPane TabelaScrollPane;
 	private JTable table;
+	private JPopupMenu popupMenu;
+	private JMenuItem mntmDodajKurs;
+	private JMenuItem mntmObrisiKurs;
+	private JMenuItem mntmIzvrsiZamenu;
 
 	public MenjacnicaGUI() {
 
@@ -75,6 +83,13 @@ public class MenjacnicaGUI extends JFrame {
 		contentPane.add(getSscrollPane(), BorderLayout.SOUTH);
 		contentPane.add(getTabelaScrollPane(), BorderLayout.CENTER);
 		setLocationRelativeTo(null);
+		
+		
+		
+	}
+
+	public void setTextArea(JTextArea textArea) {
+		this.textArea = textArea;
 	}
 
 	private JMenuBar getMenuBar_1() {
@@ -175,6 +190,11 @@ public class MenjacnicaGUI extends JFrame {
 	private JButton getBtnDodajKurs() {
 		if (btnDodajKurs == null) {
 			btnDodajKurs = new JButton("Dodaj kurs");
+			btnDodajKurs.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					GUIKontroler.OtvoriProzorDodajKurs();
+				}
+			});
 			btnDodajKurs.setPreferredSize(new Dimension(100, 25));
 		}
 		return btnDodajKurs;
@@ -208,7 +228,7 @@ public class MenjacnicaGUI extends JFrame {
 		return SscrollPane;
 	}
 
-	private JTextArea getTextArea() {
+	 JTextArea getTextArea() {
 		if (textArea == null) {
 			textArea = new JTextArea();
 			textArea.setEditable(false);
@@ -228,6 +248,8 @@ public class MenjacnicaGUI extends JFrame {
 		if (table == null) {
 			table = new JTable();
 			table.setFillsViewportHeight(true);
+			table.getTableHeader().setReorderingAllowed(false);
+			addPopup(table, getPopupMenu());
 
 			table = new JTable();
 			table.setModel(new DefaultTableModel(new Object[][] {},
@@ -240,8 +262,58 @@ public class MenjacnicaGUI extends JFrame {
 			});
 			table.setFillsViewportHeight(true);
 			table.getTableHeader().setReorderingAllowed(false);
+			addPopup(table, getPopupMenu());
 		}
 
 		return table;
+	}
+	private static void addPopup(Component component, final JPopupMenu popup) {
+		component.addMouseListener(new MouseAdapter() {
+			public void mousePressed(MouseEvent e) {
+				if (e.isPopupTrigger()) {
+					showMenu(e);
+				}
+			}
+			public void mouseReleased(MouseEvent e) {
+				if (e.isPopupTrigger()) {
+					showMenu(e);
+				}
+			}
+			private void showMenu(MouseEvent e) {
+				popup.show(e.getComponent(), e.getX(), e.getY());
+			}
+		});
+	}
+	private JPopupMenu getPopupMenu() {
+		if (popupMenu == null) {
+			popupMenu = new JPopupMenu();
+			popupMenu.add(getMntmDodajKurs());
+			popupMenu.add(getMntmObrisiKurs());
+			popupMenu.add(getMntmIzvrsiZamenu());
+		}
+		return popupMenu;
+	}
+	private JMenuItem getMntmDodajKurs() {
+		if (mntmDodajKurs == null) {
+			mntmDodajKurs = new JMenuItem("Dodaj kurs");
+			mntmDodajKurs.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					GUIKontroler.OtvoriProzorDodajKurs();
+				}
+			});
+		}
+		return mntmDodajKurs;
+	}
+	private JMenuItem getMntmObrisiKurs() {
+		if (mntmObrisiKurs == null) {
+			mntmObrisiKurs = new JMenuItem("Obrisi kurs");
+		}
+		return mntmObrisiKurs;
+	}
+	private JMenuItem getMntmIzvrsiZamenu() {
+		if (mntmIzvrsiZamenu == null) {
+			mntmIzvrsiZamenu = new JMenuItem("Izvrsi zamenu");
+		}
+		return mntmIzvrsiZamenu;
 	}
 }

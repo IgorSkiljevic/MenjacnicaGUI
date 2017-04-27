@@ -12,6 +12,7 @@ import javax.swing.JTextField;
 public class GUIKontroler {
 
 	private static MenjacnicaGUI menjacnicaGUI;
+	private static DodajKursGUI dodajKursGui;
 
 	public static String izborFile() {
 		JFileChooser jfc = new javax.swing.JFileChooser();
@@ -59,4 +60,21 @@ public class GUIKontroler {
 	public static void podaciOAutoru() {
 		JOptionPane.showMessageDialog(menjacnicaGUI, "Autor : Igor Skiljevic \n Dodatna nastava iz programiranja");
 	}
+
+	public static void OtvoriProzorDodajKurs() {
+		GUIKontroler.dodajKursGui = new DodajKursGUI();
+		dodajKursGui.setVisible(true);
+	}
+
+	public static void zatvoriProzorDodajKursGui() {
+		dodajKursGui.dispose();
+		dodajKursGui = null;
+	
+	}
+
+	public static void upisiTextUMenjacnicaGUI(String string) {
+		String txt = menjacnicaGUI.getTextArea().getText() + " \n" + string;
+		upisiText(txt, menjacnicaGUI.getTextArea());
+	}
+
 }
