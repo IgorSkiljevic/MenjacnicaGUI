@@ -124,8 +124,10 @@ public class MenjacnicaGUI extends JFrame {
 			mntmOpen = new JMenuItem("Open");
 			mntmOpen.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					GUIKontroler.upisiText("Ucitan file : " + GUIKontroler.izborFile(), textArea);
-				}
+					String txt = GUIKontroler.izborFile();
+					if(!txt.equals("")){
+					GUIKontroler.upisiText("Ucitan file : " + txt, textArea);
+				}}
 			});
 			mntmOpen.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, InputEvent.CTRL_MASK));
 			mntmOpen.setIcon(new ImageIcon(MenjacnicaGUI.class.getResource("/ikonice/open-folder-outline.png")));
@@ -138,8 +140,11 @@ public class MenjacnicaGUI extends JFrame {
 			mntmSave = new JMenuItem("Save");
 			mntmSave.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					GUIKontroler.upisiText("Sacuvan file : " + GUIKontroler.izborFile(), textArea);
-
+					String txt = GUIKontroler.izborFile();
+					if(!txt.equals("")){
+					
+					GUIKontroler.upisiText("Sacuvan file : " + txt, textArea);
+					}
 				}
 			});
 			mntmSave.setAccelerator(
@@ -272,7 +277,7 @@ public class MenjacnicaGUI extends JFrame {
 			});
 			table.setFillsViewportHeight(true);
 			table.getTableHeader().setReorderingAllowed(false);
-			addPopup(table, getPopupMenu());
+//			addPopup(table, getPopupMenu());
 		}
 
 		return table;

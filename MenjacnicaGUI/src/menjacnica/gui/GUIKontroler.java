@@ -31,10 +31,10 @@ public class GUIKontroler {
 
 	public static void upisiText(String text, Object mesto) {
 		if (mesto instanceof JTextArea) {
-			((JTextArea) mesto).setText(text);
+			((JTextArea) mesto).setText(((JTextArea) mesto).getText() + "\n" + text);
 		}
 		if (mesto instanceof JTextField) {
-			((JTextField) mesto).setText(text);
+			((JTextField) mesto).setText(((JTextField) mesto).getText() + "\n" + text);
 		}
 	}
 
